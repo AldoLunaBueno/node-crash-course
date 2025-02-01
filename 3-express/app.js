@@ -1,4 +1,4 @@
-import express from "express"
+import express, { application } from "express"
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
@@ -7,6 +7,9 @@ const __dirname = dirname(__filename);
 
 // express app
 const app = express()
+
+// register view (template) engine
+app.set("view engine", "ejs")
 
 // listen for requests
 app.listen(3000)
