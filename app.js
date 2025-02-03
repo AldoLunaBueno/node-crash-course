@@ -1,5 +1,7 @@
 import express, { application } from "express";
+
 import mongoose from "mongoose"
+import Blog from "./models/blogs.js"
 
 // Express:
 
@@ -31,24 +33,14 @@ db.once("open", () => {
   console.log("Connected to MongoDB")
 })
 
-// Defining Schema
-const blogSchema = new mongoose.Schema({
-  title: {type: String, required: true},
-  snippet: {type: String, required: true},
-  body: {type: String, required: true}
-})
 
-// Create Model based on Schema
-const Blog = mongoose.model("Blog", blogSchema)
+// Middleware:
 
+// handle post request body data
+app.use(express.urlencoded({ extended: true }))
 
-// Exposed by express:
-
-// static files (css, js, images)
+// static files exposed by express (css, js, images)
 app.use(express.static("public"))
-
-
-// Routing:
 
 // logger
 app.use((req, res, next) => {
@@ -58,8 +50,9 @@ app.use((req, res, next) => {
   next()
 })
 
-// mongoose and mongo sandbox routes
+// Routing:
 
+// mongoose and mongo sandbox route
 app.get("/add-blog", async (req, res) => {
   const newBlog = Blog({
     title: "First Blog",
@@ -75,53 +68,12 @@ app.get("/add-blog", async (req, res) => {
   
 })
 
-app.get("/all-blogs", (req, res) => {
-  Blog.find()
-    .then((result) => {
-      res.send(result)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-})
-
-// real routes
+// general routes
 
 app.get("/", (req, res) => {
-  const blogs = [
-    {
-      title: "Senku's sextant",
-      snippet:
-        "This ingenius artifact can let you measure vertical angles with your eyes.",
-    },
-    {
-      title: "Gojo's Limitless Course Technique",
-      snippet: "This stuning technique is based on maths",
-    },
-    {
-      title: "Blah blah",
-      snippet: "Blah blah blah blah blah",
-    },
-    {
-      title: "Senku's sextant",
-      snippet:
-        "This ingenius artifact can let you measure vertical angles with your eyes.",
-    },
-    {
-      title: "Gojo's Limitless Course Technique",
-      snippet: "This stuning technique is based on maths",
-    },
-    {
-      title: "Blah blah",
-      snippet: "Blah blah blah blah blah",
-    },
-  ];
-
-  res.render("index", { title: "Home", blogs });
-});
-
-app.get("/blogs/create", (req, res) => {
-  res.render("create", { title: "New" });
+  // const blogs = [...];
+  // res.render("index", { title: "All blogs", blogs });
+  res.redirect("/blogs")
 });
 
 app.get("/about", (req, res) => {
@@ -131,6 +83,35 @@ app.get("/about", (req, res) => {
 app.get("/about-us", (req, res) => {
   res.redirect("/about");
 });
+
+// blog routes
+
+app.get("/blogs", (req, res) => {
+  Blog.find()
+    .then((result) => {
+      res.render("index", {title: "All Blogs", blogs: result})
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+})
+
+app.get("/blogs/create", (req, res) => {
+  res.render("create", { title: "New" });
+});
+
+app.post("/blogs", (req, res) => {
+  const newBlog = Blog(req.body)
+  newBlog.save()
+    .then((result) => {
+      console.log("Blog added successfully!")
+      console.log(result)
+      res.redirect("/blogs/create")
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+})
 
 app.use((req, res) => {
   res.status(404).render("404.ejs", { title: "Not Found" });
