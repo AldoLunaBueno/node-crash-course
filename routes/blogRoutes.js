@@ -4,7 +4,7 @@ import Blog from "../models/blogs.js"
 const router = express.Router()
 
 // cRud
-router.get("/blogs", (req, res) => {
+router.get("/", (req, res) => {
     Blog.find()
       .then((result) => {
         res.render("index", {title: "All Blogs", blogs: result})
@@ -16,12 +16,12 @@ router.get("/blogs", (req, res) => {
   
   
   // Crud?
-  router.get("/blog/create", (req, res) => {
+  router.get("/create", (req, res) => {
     res.render("create", { title: "New" });
   });
   
   // cRud
-  router.get("/blog/:id", (req, res) => {
+  router.get("/:id", (req, res) => {
     const id = req.params.id
     Blog.findById(id)
       .then((result) => {
@@ -33,7 +33,7 @@ router.get("/blogs", (req, res) => {
   })
   
   // cruD
-  router.delete("/blog/:id", (req, res) => {
+  router.delete("/:id", (req, res) => {
     const id = req.params.id
     Blog.findByIdAndDelete(id)
       .then((result) => {
@@ -48,13 +48,13 @@ router.get("/blogs", (req, res) => {
   })
   
   // Crud
-  router.post("/blogs", (req, res) => {
+  router.post("/", (req, res) => {
     const newBlog = Blog(req.body)
     newBlog.save()
       .then((result) => {
         console.log("Blog added successfully!")
         console.log(result)
-        res.redirect("/blog/create")
+        res.redirect("/blogs/create")
       })
       .catch((err) => {
         console.log(err)

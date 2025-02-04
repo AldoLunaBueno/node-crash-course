@@ -87,7 +87,7 @@ app.get("/about-us", (req, res) => {
 
 // blog routes (CRUD)
 // (exported)
-app.use(blogRoutes)
+app.use("/blogs", blogRoutes)
 
 app.use((req, res) => {
   res.status(404).render("404.ejs", { title: "Not Found" });
