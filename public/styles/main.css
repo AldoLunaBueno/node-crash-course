@@ -102,3 +102,13 @@ footer {
     align-self: center;
   }
 }
+
+.details {
+  position: relative;
+}
+
+.delete {
+  position: absolute;
+  top: 70px;
+  right: 0;
+}

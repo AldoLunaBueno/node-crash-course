@@ -97,6 +97,12 @@ app.get("/blogs", (req, res) => {
     })
 })
 
+
+// Crud?
+app.get("/blog/create", (req, res) => {
+  res.render("create", { title: "New" });
+});
+
 // cRud
 app.get("/blog/:id", (req, res) => {
   const id = req.params.id
@@ -109,18 +115,29 @@ app.get("/blog/:id", (req, res) => {
     })
 })
 
-// Crud
-app.get("/blogs/create", (req, res) => {
-  res.render("create", { title: "New" });
-});
+// cruD
+app.delete("/blog/:id", (req, res) => {
+  const id = req.params.id
+  Blog.findByIdAndDelete(id)
+    .then((result) => {
+      console.log("Delete blog:")
+      console.log(result)
+      // res.redirect("/blogs")DOESN'T WORK!
+      res.json({message: "Blog deleted!"})
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+})
 
+// Crud
 app.post("/blogs", (req, res) => {
   const newBlog = Blog(req.body)
   newBlog.save()
     .then((result) => {
       console.log("Blog added successfully!")
       console.log(result)
-      res.redirect("/blogs/create")
+      res.redirect("/blog/create")
     })
     .catch((err) => {
       console.log(err)

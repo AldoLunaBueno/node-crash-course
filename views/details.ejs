@@ -8,7 +8,25 @@
       <article>
         <h3> <%= blog.title %> </h3>
         <p> <%= blog.body %> </p>
+        <button class="delete" data-doc="<%= blog._id %>">delete</button>
       </article>
+      <script>
+        const trashcan = document.querySelector("button.delete")
+        trashcan.addEventListener("click", (e) => {
+            const endpoint = `/blog/${trashcan.dataset.doc}`
+            fetch(endpoint, {
+                method: "DELETE"
+            })
+            .then((result) => {
+                console.log("Delete blog:")
+                console.log(result)
+                window.location.href = "/blogs"
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        })
+      </script>
     </main>
     <%- include("./partials/footer") %>
   </body>
