@@ -40,6 +40,12 @@ EJS es un procesador de plantillas. EJS vuelve dinámico el contenido, es decir,
 
 ## Base de datos de acceso público
 
-![](readme-images/2025-02-04-12-29-40.png)
+![alt](readme-images/2025-02-04-12-29-40.png)
 
-![](readme-images/2025-02-04-13-06-38.png)
+![alt](readme-images/2025-02-04-13-06-38.png)
+
+## Despliegue en Vercel
+
+![alt](readme-images/2025-02-04-16-00-27.png)
+
+![alt](readme-images/2025-02-04-16-07-05.png)

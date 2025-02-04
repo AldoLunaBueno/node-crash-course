@@ -1,26 +1,25 @@
 import express, { application } from "express";
-
 import mongoose from "mongoose"
 import dotenv from "dotenv"
 import blogRoutes from "./routes/blogRoutes.js"
+import cors from "cors"
 
 // Load environment variables
 dotenv.config();
 
-// Express:
+// Express
+const app = express(); // express app
+app.listen(3000, "0.0.0.0"); // listen for requests from LAN
 
-// express app:
-const app = express();
+// EJS
+app.set("view engine", "ejs"); // register view (template) engine
 
-// listen for requests from LAN
-app.listen(3000, "0.0.0.0");
-
-
-// EJS:
-
-// register view (template) engine
-app.set("view engine", "ejs");
-
+// Cors
+app.use(cors({
+  origin: ["https://node-crash-course-nu.vercel.app/"],
+  methods: ["GET", "POST", "DELETE"],
+  credentials: true
+}))
 
 // MongoDB:
 
@@ -39,14 +38,10 @@ db.once("open", () => {
   console.log("Connected to MongoDB Atlas")
 })
 
+// Middleware
 
-// Middleware:
-
-// handle post request body data
-app.use(express.urlencoded({ extended: true }))
-
-// static files exposed by express (css, js, images)
-app.use(express.static("public"))
+app.use(express.urlencoded({ extended: true })) // handle post request body data
+app.use(express.static("public")) // static files exposed by express (css, js, images)
 
 // logger
 app.use((req, res, next) => {
@@ -76,3 +71,6 @@ app.use("/blogs", blogRoutes)
 app.use((req, res) => {
   res.status(404).render("404.ejs", { title: "Not Found" });
 });
+
+// Export the app for Vercel
+export default app;
