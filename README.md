@@ -37,3 +37,9 @@ Es bueno conocer el módulo http, pero usar un framework como express nos puede 
 ## Procesador de plantillas
 
 EJS es un procesador de plantillas. EJS vuelve dinámico el contenido, es decir, inyecta datos o lógica con instrucciones en lenguaje JavaScript para generar el contenido que finalmente es servido en el navegador. Los datos se inyectan usando objetos que se pasan como argumentos en un método como `render()`. Con EJS tmmbién podemos definir contenido parcial.
+
+## Base de datos de acceso público
+
+![](readme-images/2025-02-04-12-29-40.png)
+
+![](readme-images/2025-02-04-13-06-38.png)

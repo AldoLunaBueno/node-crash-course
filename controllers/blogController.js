@@ -3,7 +3,7 @@ import Blog from "../models/blogs.js"
 const blog_index = (req, res) => {
     Blog.find()
       .then((result) => {
-        res.render("index", {title: "All Blogs", blogs: result})
+        res.render("blogs/index", {title: "All Blogs", blogs: result})
       })
       .catch((err) => {
         console.log(err)
@@ -11,14 +11,14 @@ const blog_index = (req, res) => {
 }
 
 const blog_create_get = (req, res) => {
-    res.render("create", { title: "New" });
+    res.render("blogs/create", { title: "New" });
 }
 
 const blog_details = (req, res) => {
     const id = req.params.id
     Blog.findById(id)
       .then((result) => {
-        res.render("details", {title: "Details", blog: result})
+        res.render("blogs/details", {title: "Details", blog: result})
       })
       .catch((err) => {
         console.log(err)
