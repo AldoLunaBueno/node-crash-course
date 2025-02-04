@@ -20,6 +20,7 @@ app.use(cors({
   methods: ["GET", "POST", "DELETE"],
   credentials: true
 }))
+app.use(express.json())
 
 // MongoDB:
 
