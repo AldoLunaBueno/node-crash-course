@@ -4,23 +4,14 @@ import dotenv from "dotenv"
 import blogRoutes from "./routes/blogRoutes.js"
 import cors from "cors"
 
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // Load environment variables
 dotenv.config();
-
-// Express
-const app = express(); // express app
-app.listen(3000, "0.0.0.0"); // listen for requests from LAN
-
-// EJS
-app.set("view engine", "ejs"); // register view (template) engine
-
-// Cors
-app.use(cors({
-  origin: ["https://node-crash-course-nu.vercel.app/"],
-  methods: ["GET", "POST", "DELETE"],
-  credentials: true
-}))
-app.use(express.json())
 
 // MongoDB:
 
@@ -39,10 +30,26 @@ db.once("open", () => {
   console.log("Connected to MongoDB Atlas")
 })
 
+// Express
+const app = express(); // express app
+app.listen(3000, "0.0.0.0"); // listen for requests from LAN
+
+// EJS
+app.set("view engine", "ejs"); // register view (template) engine
+
+// Cors
+app.use(cors({
+  origin: ["https://node-crash-course-nu.vercel.app/"],
+  methods: ["GET", "POST", "DELETE"],
+  credentials: true
+}))
+app.use(express.json())
+
 // Middleware
 
 app.use(express.urlencoded({ extended: true })) // handle post request body data
 app.use(express.static("public")) // static files exposed by express (css, js, images)
+app.set("views", path.join(__dirname, "views"));
 
 // logger
 app.use((req, res, next) => {
