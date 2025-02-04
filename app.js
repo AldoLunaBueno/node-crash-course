@@ -9,7 +9,7 @@ import Blog from "./models/blogs.js"
 const app = express();
 
 // listen for requests from LAN
-app.listen(3000, "192.168.1.11");
+app.listen(3000, "192.168.1.5");
 
 
 // EJS:
@@ -52,21 +52,21 @@ app.use((req, res, next) => {
 
 // Routing:
 
-// mongoose and mongo sandbox route
-app.get("/add-blog", async (req, res) => {
-  const newBlog = Blog({
-    title: "First Blog",
-    snippet: "This is a short description",
-    body: "This is the full content of the blog post."
-  })
-  try {    
-    await newBlog.save()
-    res.send("Blog added successfully")
-  } catch (error) {
-    res.status(500).send(error.message)
-  }
+// // mongoose and mongo sandbox route
+// app.get("/add-blog", async (req, res) => {
+//   const newBlog = Blog({
+//     title: "First Blog",
+//     snippet: "This is a short description",
+//     body: "This is the full content of the blog post."
+//   })
+//   try {    
+//     await newBlog.save()
+//     res.send("Blog added successfully")
+//   } catch (error) {
+//     res.status(500).send(error.message)
+//   }
   
-})
+// })
 
 // general routes
 
@@ -84,8 +84,9 @@ app.get("/about-us", (req, res) => {
   res.redirect("/about");
 });
 
-// blog routes
+// blog routes (CRUD)
 
+// cRud
 app.get("/blogs", (req, res) => {
   Blog.find()
     .then((result) => {
@@ -96,6 +97,19 @@ app.get("/blogs", (req, res) => {
     })
 })
 
+// cRud
+app.get("/blog/:id", (req, res) => {
+  const id = req.params.id
+  Blog.findById(id)
+    .then((result) => {
+      res.render("details", {title: "Details", blog: result})
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+})
+
+// Crud
 app.get("/blogs/create", (req, res) => {
   res.render("create", { title: "New" });
 });

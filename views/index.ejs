@@ -2,13 +2,15 @@
 <html lang="en">
   <%- include("./partials/head") %>
   <body>
-    <%- include("./partials/nav") %>    
+    <%- include("./partials/nav") %>
     <main class="blogs content">
       <h2>All Blogs</h2>
       <% blogs.forEach(blog => { %>
       <article>
-        <h3> <%= blog.title %> </h3>
-        <p> <%= blog.snippet %> </p>
+        <a href="/blog/<%= blog.id %>">
+          <h3><%= blog.title %></h3>
+        </a>
+        <p><%= blog.snippet %></p>
       </article>
       <% }) %>
     </main>
