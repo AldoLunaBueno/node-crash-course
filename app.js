@@ -1,7 +1,8 @@
 import express, { application } from "express";
 
 import mongoose from "mongoose"
-import Blog from "./models/blogs.js"
+// import Blog from "./models/blogs.js"
+import blogRoutes from "./routes/blogRoutes.js"
 
 // Express:
 
@@ -85,64 +86,8 @@ app.get("/about-us", (req, res) => {
 });
 
 // blog routes (CRUD)
-
-// cRud
-app.get("/blogs", (req, res) => {
-  Blog.find()
-    .then((result) => {
-      res.render("index", {title: "All Blogs", blogs: result})
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-})
-
-
-// Crud?
-app.get("/blog/create", (req, res) => {
-  res.render("create", { title: "New" });
-});
-
-// cRud
-app.get("/blog/:id", (req, res) => {
-  const id = req.params.id
-  Blog.findById(id)
-    .then((result) => {
-      res.render("details", {title: "Details", blog: result})
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-})
-
-// cruD
-app.delete("/blog/:id", (req, res) => {
-  const id = req.params.id
-  Blog.findByIdAndDelete(id)
-    .then((result) => {
-      console.log("Delete blog:")
-      console.log(result)
-      // res.redirect("/blogs")DOESN'T WORK!
-      res.json({message: "Blog deleted!"})
-    })
-    .catch((err) => {
-        console.log(err)
-    })
-})
-
-// Crud
-app.post("/blogs", (req, res) => {
-  const newBlog = Blog(req.body)
-  newBlog.save()
-    .then((result) => {
-      console.log("Blog added successfully!")
-      console.log(result)
-      res.redirect("/blog/create")
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-})
+// (exported)
+app.use(blogRoutes)
 
 app.use((req, res) => {
   res.status(404).render("404.ejs", { title: "Not Found" });
