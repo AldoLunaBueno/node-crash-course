@@ -48,7 +48,7 @@ app.use(express.json())
 // Middleware
 
 app.use(express.urlencoded({ extended: true })) // handle post request body data
-app.use(express.static("public")) // static files exposed by express (css, js, images)
+app.use(express.static(path.join(__dirname, 'public'))); // static files exposed by express (css, js, images)
 app.set("views", path.join(__dirname, "views"));
 
 // logger
