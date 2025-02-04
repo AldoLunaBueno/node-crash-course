@@ -59,6 +59,13 @@ app.use((req, res, next) => {
   next()
 })
 
+app.use((req, res, next) => {
+  if (req.url.startsWith("/styles/")) {
+    console.log("Request for static file:", req.url);
+  }
+  next();
+});
+
 // general routes
 
 app.get("/", (req, res) => {
